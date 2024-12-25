@@ -1,17 +1,12 @@
-import { List, ListItem, Text } from "@chakra-ui/react"
-
-const genres = [
-  "Action",
-  "Adventure",
-  "RPG",
-  "Strategy",
-  "Sports",
-  "Puzzle",
-  "Racing",
-  "Shooter"
-]
+import { List, ListItem, Text, Spinner } from "@chakra-ui/react"
+import { useGenres } from "../hooks/useGenres"
 
 const GenreList = () => {
+  const { genres, error, isLoading } = useGenres();
+
+  if (error) return <Text color="red.500">{error}</Text>;
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <Text fontSize="2xl" marginBottom={3}>Genres</Text>

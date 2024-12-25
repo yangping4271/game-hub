@@ -25,6 +25,17 @@ app.get('/api/games', async (req, res) => {
   }
 });
 
+// 获取所有独特的游戏类型
+app.get('/api/genres', async (req, res) => {
+  try {
+    const genres = await GameModel.distinct('genre');
+    res.json(genres.filter(genre => genre)); // 过滤掉null和undefined值
+  } catch (error) {
+    console.error('Error fetching genres:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
