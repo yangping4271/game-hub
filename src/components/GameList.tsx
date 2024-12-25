@@ -1,4 +1,4 @@
-import { Box, List, ListItem, Text, Spinner } from '@chakra-ui/react';
+import { Box, List, ListItem, Text, Spinner, Image } from '@chakra-ui/react';
 import { useGames } from '../hooks/useGames';
 
 const GameList = () => {
@@ -12,6 +12,17 @@ const GameList = () => {
       <List spacing={3}>
         {games.map(game => (
           <ListItem key={game._id} p={3} borderWidth="1px" borderRadius="lg">
+            {game.image && (
+              <Image
+                src={game.image}
+                alt={game.name}
+                borderRadius="md"
+                mb={3}
+                objectFit="cover"
+                width="100%"
+                height="200px"
+              />
+            )}
             <Text fontSize="xl" fontWeight="bold">{game.name}</Text>
             {game.description && <Text mt={2}>{game.description}</Text>}
             <Text mt={2}>

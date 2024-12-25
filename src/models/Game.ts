@@ -9,6 +9,7 @@ export interface Game {
   platform?: string;
   price?: number;
   releaseDate?: Date;
+  image?: string;
 }
 
 // Mongoose Schema
@@ -19,6 +20,7 @@ const gameSchema = new mongoose.Schema({
   platform: String,
   price: Number,
   releaseDate: Date,
+  image: String,
 }, {
   collection: 'action'  // 指定使用 action collection
 });
