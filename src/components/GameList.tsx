@@ -1,35 +1,11 @@
-import { useEffect, useState } from 'react';
-import { Box, List, ListItem, Text } from '@chakra-ui/react';
-
-interface GameType {
-  _id: string;
-  name: string;
-  description?: string;
-  genre?: string;
-  platform?: string;
-  price?: number;
-  releaseDate?: Date;
-}
+import { Box, List, ListItem, Text, Spinner } from '@chakra-ui/react';
+import { useGames } from '../hooks/useGames';
 
 const GameList = () => {
-  const [games, setGames] = useState<GameType[]>([]);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/games');
-        const data = await response.json();
-        setGames(data);
-      } catch (err: any) {
-        setError(err.message);
-      }
-    };
-
-    fetchGames();
-  }, []);
+  const { games, error, isLoading } = useGames();
 
   if (error) return <Text color="red.500">{error}</Text>;
+  if (isLoading) return <Spinner />;
 
   return (
     <Box padding={5}>

@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
-import Game from './models/Game.js';
+import GameModel from './models/Game.js';
 
 const app = express();
 
@@ -14,10 +14,13 @@ app.use(express.json());
 
 // 路由
 app.get('/api/games', async (req, res) => {
+  console.log('Fetching games');
   try {
-    const games = await Game.find();
+    const games = await GameModel.find();
+    console.log('Games fetched:', games);
     res.json(games);
   } catch (error) {
+    console.error('Error fetching games:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });

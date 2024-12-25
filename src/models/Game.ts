@@ -1,7 +1,19 @@
 import mongoose from 'mongoose';
 
+// Game 接口定义
+export interface Game {
+  _id: string;
+  name: string;
+  description?: string;
+  genre?: string;
+  platform?: string;
+  price?: number;
+  releaseDate?: Date;
+}
+
+// Mongoose Schema
 const gameSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   description: String,
   genre: String,
   platform: String,
@@ -11,5 +23,6 @@ const gameSchema = new mongoose.Schema({
   collection: 'action'  // 指定使用 action collection
 });
 
-const Game = mongoose.model('Game', gameSchema);
-export default Game; 
+// 导出 mongoose 模型
+const GameModel = mongoose.model('Game', gameSchema);
+export default GameModel; 
