@@ -1,7 +1,8 @@
-import { Box, SimpleGrid, Text, Spinner, Image, Select, HStack } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text, Spinner, Image, Select, HStack, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { useGames, SortOption } from '../hooks/useGames';
 import { usePlatforms } from '../hooks/usePlatforms';
 import { useState } from 'react';
+import { SearchIcon } from '@chakra-ui/icons';
 
 interface Props {
   selectedGenre?: string;
@@ -17,8 +18,9 @@ const sortOptions = [
 const GameList = ({ selectedGenre }: Props) => {
   const [selectedPlatform, setSelectedPlatform] = useState<string>();
   const [selectedSort, setSelectedSort] = useState<SortOption>();
+  const [searchText, setSearchText] = useState('');
   const { platforms } = usePlatforms();
-  const { games, error, isLoading } = useGames(selectedGenre, selectedPlatform, selectedSort);
+  const { games, error, isLoading } = useGames(selectedGenre, selectedPlatform, selectedSort, searchText);
 
   if (error) return <Text color="red.500">{error}</Text>;
   if (isLoading) return <Spinner />;
@@ -26,6 +28,17 @@ const GameList = ({ selectedGenre }: Props) => {
   return (
     <Box padding={5}>
       <HStack spacing={4} marginBottom={5}>
+        <InputGroup maxW="300px">
+          <InputLeftElement>
+            <SearchIcon color="gray.400" />
+          </InputLeftElement>
+          <Input
+            placeholder="Search games..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            variant="filled"
+          />
+        </InputGroup>
         <Select 
           placeholder="Select Platform" 
           value={selectedPlatform} 
