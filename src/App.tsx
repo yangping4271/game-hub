@@ -6,14 +6,19 @@ import GenreList from "./components/GenreList"
 
 function App() {
   const [selectedGenre, setSelectedGenre] = useState<string>();
+  const [searchText, setSearchText] = useState('');
 
   return (
     <Grid templateAreas={{
       base: `"nav" "main"`,
       lg:  `"nav nav" "aside main"`
+    }}
+    templateColumns={{
+      base: '1fr',
+      lg: '200px 1fr'
     }}>
       <GridItem area='nav'>
-        <NavBar />
+        <NavBar onSearch={setSearchText} />
       </GridItem>
       <Show above='lg'>
         <GridItem area='aside' paddingX={5}>
@@ -21,7 +26,7 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area='main'>
-        <GameList selectedGenre={selectedGenre} />
+        <GameList selectedGenre={selectedGenre} searchText={searchText} />
       </GridItem>
     </Grid>
   )
