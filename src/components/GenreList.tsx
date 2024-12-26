@@ -14,7 +14,7 @@ const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
 
   return (
     <>
-      <Text fontSize="2xl" marginBottom={3}>Genres</Text>
+      <Text fontSize="2xl" marginBottom={3}>类型</Text>
       <List spacing={3}>
         {genres.map(genre => (
           <ListItem 
