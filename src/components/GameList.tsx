@@ -1,18 +1,34 @@
-import { Box, SimpleGrid, Text, Spinner, Image } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text, Spinner, Image, Select, HStack } from '@chakra-ui/react';
 import { useGames } from '../hooks/useGames';
+import { usePlatforms } from '../hooks/usePlatforms';
+import { useState } from 'react';
 
 interface Props {
   selectedGenre?: string;
 }
 
 const GameList = ({ selectedGenre }: Props) => {
-  const { games, error, isLoading } = useGames(selectedGenre);
+  const [selectedPlatform, setSelectedPlatform] = useState<string>();
+  const { platforms } = usePlatforms();
+  const { games, error, isLoading } = useGames(selectedGenre, selectedPlatform);
 
   if (error) return <Text color="red.500">{error}</Text>;
   if (isLoading) return <Spinner />;
 
   return (
     <Box padding={5}>
+      <HStack spacing={4} marginBottom={5}>
+        <Select 
+          placeholder="Select Platform" 
+          value={selectedPlatform} 
+          onChange={(e) => setSelectedPlatform(e.target.value || undefined)}
+          width="200px"
+        >
+          {platforms.map(platform => (
+            <option key={platform} value={platform}>{platform}</option>
+          ))}
+        </Select>
+      </HStack>
       <SimpleGrid 
         columns={{ base: 1, md: 2, lg: 3, xl: 4 }} 
         spacing={6}

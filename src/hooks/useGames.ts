@@ -1,12 +1,14 @@
 import { Game } from '../models/Game';
 import { useFetch } from './useFetch';
 
-export const useGames = (selectedGenre?: string) => {
+export const useGames = (selectedGenre?: string, selectedPlatform?: string) => {
   const { data: games, error, isLoading } = useFetch<Game[]>('http://localhost:3000/api/games', []);
   
-  const filteredGames = selectedGenre
-    ? games.filter(game => game.genre === selectedGenre)
-    : games;
+  const filteredGames = games.filter(game => {
+    if (selectedGenre && game.genre !== selectedGenre) return false;
+    if (selectedPlatform && game.platform !== selectedPlatform) return false;
+    return true;
+  });
     
   return { games: filteredGames, error, isLoading };
 } 
