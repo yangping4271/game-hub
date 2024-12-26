@@ -1,5 +1,5 @@
 import { Box, SimpleGrid, Text, Spinner, Image, Select, HStack } from '@chakra-ui/react';
-import { useGames } from '../hooks/useGames';
+import { useGames, SortOption } from '../hooks/useGames';
 import { usePlatforms } from '../hooks/usePlatforms';
 import { useState } from 'react';
 
@@ -7,10 +7,18 @@ interface Props {
   selectedGenre?: string;
 }
 
+const sortOptions = [
+  { label: 'Price: Low to High', value: 'price', order: 'asc' },
+  { label: 'Price: High to Low', value: 'price', order: 'desc' },
+  { label: 'Release Date: Newest', value: 'releaseDate', order: 'desc' },
+  { label: 'Release Date: Oldest', value: 'releaseDate', order: 'asc' },
+] as const;
+
 const GameList = ({ selectedGenre }: Props) => {
   const [selectedPlatform, setSelectedPlatform] = useState<string>();
+  const [selectedSort, setSelectedSort] = useState<SortOption>();
   const { platforms } = usePlatforms();
-  const { games, error, isLoading } = useGames(selectedGenre, selectedPlatform);
+  const { games, error, isLoading } = useGames(selectedGenre, selectedPlatform, selectedSort);
 
   if (error) return <Text color="red.500">{error}</Text>;
   if (isLoading) return <Spinner />;
@@ -26,6 +34,30 @@ const GameList = ({ selectedGenre }: Props) => {
         >
           {platforms.map(platform => (
             <option key={platform} value={platform}>{platform}</option>
+          ))}
+        </Select>
+        <Select
+          placeholder="Sort by..."
+          value={selectedSort ? `${selectedSort.value}-${selectedSort.order}` : ''}
+          onChange={(e) => {
+            if (!e.target.value) {
+              setSelectedSort(undefined);
+              return;
+            }
+            const option = sortOptions.find(
+              opt => `${opt.value}-${opt.order}` === e.target.value
+            );
+            setSelectedSort(option);
+          }}
+          width="200px"
+        >
+          {sortOptions.map(option => (
+            <option 
+              key={`${option.value}-${option.order}`} 
+              value={`${option.value}-${option.order}`}
+            >
+              {option.label}
+            </option>
           ))}
         </Select>
       </HStack>
@@ -51,6 +83,7 @@ const GameList = ({ selectedGenre }: Props) => {
                 {game.genre && `Genre: ${game.genre}`} 
                 {game.platform && ` | Platform: ${game.platform}`}
                 {game.price && ` | Price: $${game.price}`}
+                {game.releaseDate && ` | Released: ${new Date(game.releaseDate).toLocaleDateString()}`}
               </Text>
             </Box>
           </Box>
