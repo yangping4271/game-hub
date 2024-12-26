@@ -1,8 +1,12 @@
 import { Box, SimpleGrid, Text, Spinner, Image } from '@chakra-ui/react';
 import { useGames } from '../hooks/useGames';
 
-const GameList = () => {
-  const { games, error, isLoading } = useGames();
+interface Props {
+  selectedGenre?: string;
+}
+
+const GameList = ({ selectedGenre }: Props) => {
+  const { games, error, isLoading } = useGames(selectedGenre);
 
   if (error) return <Text color="red.500">{error}</Text>;
   if (isLoading) return <Spinner />;
