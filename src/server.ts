@@ -1,20 +1,30 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import GameModel from './models/Game.js';
-import dotenv from 'dotenv';
 
 // 加载环境变量
 dotenv.config();
 
-const app = express();
+// 验证环境变量
+if (!process.env.MONGODB_URI) {
+  console.error('MONGODB_URI is not defined in environment variables');
+  process.exit(1);
+}
 
-// 连接数据库
-connectDB();
+const app = express();
 
 // 中间件
 app.use(cors());
 app.use(express.json());
+
+// 连接数据库
+console.log('Initializing database connection...');
+connectDB().catch(err => {
+  console.error('Failed to connect to database:', err);
+  process.exit(1);
+});
 
 // 路由
 app.get('/api/games', async (req, res) => {
@@ -50,5 +60,5 @@ app.get('/api/genres', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log('MongoDB URI:', process.env.MONGODB_URI);
+  console.log('MongoDB URI:', process.env.MONGODB_URI?.replace(/\/\/[^:]+:[^@]+@/, '//<credentials>@'));
 }); 
