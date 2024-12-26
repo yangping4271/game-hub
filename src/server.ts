@@ -34,29 +34,6 @@ app.get('/api/games', async (req, res) => {
   }
 });
 
-// 创建游戏
-app.post('/api/games', async (req, res) => {
-  try {
-    const game = new GameModel(req.body);
-    await game.save();
-    res.status(201).json(game);
-  } catch (error) {
-    console.error('Error creating game:', error);
-    res.status(500).json({ message: 'Server Error' });
-  }
-});
-
-// 批量创建游戏
-app.post('/api/games/batch', async (req, res) => {
-  try {
-    const games = await GameModel.insertMany(req.body);
-    res.status(201).json(games);
-  } catch (error) {
-    console.error('Error creating games:', error);
-    res.status(500).json({ message: 'Server Error' });
-  }
-});
-
 // 获取所有独特的游戏类型
 app.get('/api/genres', async (req, res) => {
   console.log('Fetching genres from database...');

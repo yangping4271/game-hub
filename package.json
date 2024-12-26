@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "server": "node --loader ts-node/esm src/server.ts",
-    "init-db": "node --loader ts-node/esm src/scripts/initDb.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
