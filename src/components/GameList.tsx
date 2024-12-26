@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Text, Spinner, Image, Select, HStack } from '@chakra-ui/react';
+import { Box, SimpleGrid, Text, Spinner, Image, Select, HStack, Heading } from '@chakra-ui/react';
 import { useGames, SortOption } from '../hooks/useGames';
 import { usePlatforms } from '../hooks/usePlatforms';
 import { useState } from 'react';
@@ -26,6 +26,11 @@ const GameList = ({ selectedGenre, searchText }: Props) => {
 
   return (
     <Box padding={5}>
+      {selectedGenre && (
+        <Heading as='h1' marginBottom={5}>
+          {selectedGenre} Games
+        </Heading>
+      )}
       <HStack spacing={4} marginBottom={5}>
         <Select 
           placeholder="Select Platform" 
