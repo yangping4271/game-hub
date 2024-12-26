@@ -12,7 +12,8 @@ export const useGames = (
   sortBy?: SortOption,
   searchText?: string
 ) => {
-  const { data: games, error, isLoading } = useFetch<Game[]>('http://localhost:3000/api/games', []);
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+  const { data: games, error, isLoading } = useFetch<Game[]>(`${apiUrl}/games`, []);
   
   let filteredGames = games.filter(game => {
     if (selectedGenre && game.genre !== selectedGenre) return false;

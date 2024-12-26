@@ -1,6 +1,7 @@
 import { useFetch } from './useFetch';
 
 export const useGenres = () => {
-  const { data: genres, error, isLoading } = useFetch<string[]>('http://localhost:3000/api/genres', []);
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+  const { data: genres, error, isLoading } = useFetch<string[]>(`${apiUrl}/genres`, []);
   return { genres, error, isLoading };
 } 

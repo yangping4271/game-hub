@@ -2,8 +2,12 @@ import mongoose from 'mongoose';
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect('mongodb://127.0.0.1:27017/games');
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    if (!process.env.MONGODB_URI) {
+      throw new Error('MongoDB URI is not defined in environment variables');
+    }
+    console.log('Attempting to connect to MongoDB Atlas...');
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    console.log(`MongoDB Atlas Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
     process.exit(1);
@@ -11,3 +15,4 @@ const connectDB = async () => {
 };
 
 export default connectDB; 
+

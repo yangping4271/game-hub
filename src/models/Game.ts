@@ -22,7 +22,7 @@ const gameSchema = new mongoose.Schema({
   releaseDate: Date,
   image: String,
 }, {
-  collection: 'action'  // 指定使用 action collection
+  collection: 'games'  // 修改为更通用的collection名称
 });
 
 // 导出 mongoose 模型
