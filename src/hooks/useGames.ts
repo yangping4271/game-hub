@@ -6,7 +6,7 @@ export const useGames = (selectedGenre?: string, selectedPlatform?: string) => {
   
   const filteredGames = games.filter(game => {
     if (selectedGenre && game.genre !== selectedGenre) return false;
-    if (selectedPlatform && game.platform !== selectedPlatform) return false;
+    if (selectedPlatform && !game.platform?.split(',').map(p => p.trim()).includes(selectedPlatform)) return false;
     return true;
   });
     
